@@ -6,11 +6,11 @@ namespace Heindall_API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class IntegradoresDoUsuarioController : ControllerBase
+public class IntegradoresController : ControllerBase
 {
-	private readonly IRepository<IntegradorDoUsuario> _repository;
+	private readonly IIntegradoresRepository _repository;
 
-	public IntegradoresDoUsuarioController(IRepository<IntegradorDoUsuario> repository)
+	public IntegradoresController(IIntegradoresRepository repository)
 	{
 		_repository = repository;
 	}
@@ -18,7 +18,7 @@ public class IntegradoresDoUsuarioController : ControllerBase
 	#region GET
 
 	[HttpGet]
-	public async Task<IActionResult> ObterTodosOsIntegradoresDoUsuario()
+	public async Task<IActionResult> ObterTodosOsIntegradores()
 	{
 		try
 		{
@@ -32,7 +32,7 @@ public class IntegradoresDoUsuarioController : ControllerBase
 	}
 
 	[HttpGet("obterPorId")]
-	public async Task<IActionResult> ObterIntegradorDoUsuarioPorId([FromQuery] int id)
+	public async Task<IActionResult> ObterIntegradorPorId([FromQuery] int id)
 	{
 		try
 		{
@@ -50,12 +50,12 @@ public class IntegradoresDoUsuarioController : ControllerBase
 	#region POST
 
 	[HttpPost]
-	public async Task<IActionResult> CriarIntegradorDoUsuario([FromBody] IntegradorDoUsuario integradorDoUsuario)
+	public async Task<IActionResult> CriarIntegrador([FromBody] Integrador integrador)
 	{
 		try
 		{
-			await _repository.Criar(integradorDoUsuario);
-			return Created("Integrador do usuário criado", integradorDoUsuario);
+			await _repository.Criar(integrador);
+			return Created("Integrador criado", integrador);
 		}
 		catch (Exception ex)
 		{
@@ -68,11 +68,11 @@ public class IntegradoresDoUsuarioController : ControllerBase
 	#region PUT
 
 	[HttpPut]
-	public async Task<IActionResult> AtualizarIntegradorDoUsuario([FromQuery] int id, [FromBody] IntegradorDoUsuario integradorDoUsuario)
+	public async Task<IActionResult> AtualizarIntegrador([FromQuery] int id, [FromBody] Integrador integrador)
 	{
 		try
 		{
-			await _repository.Atualizar(id, integradorDoUsuario);
+			await _repository.Atualizar(id, integrador);
 			return NoContent();
 		}
 		catch (Exception ex)
@@ -86,7 +86,7 @@ public class IntegradoresDoUsuarioController : ControllerBase
 	#region DELETE
 
 	[HttpDelete]
-	public async Task<IActionResult> DeletarIntegradorDoUsuario([FromQuery] int id)
+	public async Task<IActionResult> DeletarIntegrador([FromQuery] int id)
 	{
 		try
 		{

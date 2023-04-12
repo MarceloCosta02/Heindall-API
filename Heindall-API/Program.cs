@@ -19,6 +19,9 @@ builder.Services.AddDbContext<MySQLContext>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
+builder.Services.AddScoped<IIntegradoresDoUsuarioRepository, IntegradoresDoUsuarioRepository>();
+builder.Services.AddScoped<IIntegradoresRepository, IntegradoresRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
