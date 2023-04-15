@@ -32,7 +32,7 @@ public class UsuariosController : ControllerBase
 	}
 
 	[HttpGet("obterPorId")]
-	public async Task<IActionResult> ObterUsuarioPorId([FromQuery] int id)
+	public async Task<IActionResult> ObterUsuarioPorId([FromQuery] long id)
 	{
 		try
 		{
@@ -68,7 +68,7 @@ public class UsuariosController : ControllerBase
 	#region PUT
 
 	[HttpPut]
-	public async Task<IActionResult> AtualizarUsuario([FromQuery] int id, [FromBody] Usuario usuario)
+	public async Task<IActionResult> AtualizarUsuario([FromQuery] long id, [FromBody] Usuario usuario)
 	{
 		try
 		{
@@ -86,7 +86,7 @@ public class UsuariosController : ControllerBase
 	#region DELETE
 
 	[HttpDelete]
-	public async Task<IActionResult> DeletarUsuario([FromQuery] int id)
+	public async Task<IActionResult> DeletarUsuario([FromQuery] long id)
 	{
 		try
 		{

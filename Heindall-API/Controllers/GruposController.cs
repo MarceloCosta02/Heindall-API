@@ -32,7 +32,7 @@ public class GruposController : ControllerBase
 	}
 
 	[HttpGet("obterPorId")]
-	public async Task<IActionResult>  ObterGrupoPorId([FromQuery] int id)
+	public async Task<IActionResult>  ObterGrupoPorId([FromQuery] long id)
 	{
 		try
 		{
@@ -68,7 +68,7 @@ public class GruposController : ControllerBase
 	#region PUT
 
 	[HttpPut]
-	public async Task<IActionResult> AtualizarGrupo([FromQuery] int id, [FromBody] Grupo grupo)
+	public async Task<IActionResult> AtualizarGrupo([FromQuery] long id, [FromBody] Grupo grupo)
 	{
 		try
 		{
@@ -86,7 +86,7 @@ public class GruposController : ControllerBase
 	#region DELETE
 
 	[HttpDelete]
-	public async Task<IActionResult>  DeletarGrupo([FromQuery] int id)
+	public async Task<IActionResult>  DeletarGrupo([FromQuery] long id)
 	{
 		try
 		{

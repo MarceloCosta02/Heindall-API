@@ -32,7 +32,7 @@ public class MetasController : ControllerBase
 	}
 
 	[HttpGet("obterPorId")]
-	public async Task<IActionResult> ObterMetaPorId([FromQuery] int id)
+	public async Task<IActionResult> ObterMetaPorId([FromQuery] long id)
 	{
 		try
 		{
@@ -68,7 +68,7 @@ public class MetasController : ControllerBase
 	#region PUT
 
 	[HttpPut]
-	public async Task<IActionResult> AtualizarMeta([FromQuery] int id, [FromBody] Meta meta)
+	public async Task<IActionResult> AtualizarMeta([FromQuery] long id, [FromBody] Meta meta)
 	{
 		try
 		{
@@ -86,7 +86,7 @@ public class MetasController : ControllerBase
 	#region DELETE
 
 	[HttpDelete]
-	public async Task<IActionResult> DeletarMeta([FromQuery] int id)
+	public async Task<IActionResult> DeletarMeta([FromQuery] long id)
 	{
 		try
 		{

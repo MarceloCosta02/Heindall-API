@@ -20,7 +20,7 @@ public class IntegradoresRepository : IIntegradoresRepository
         return await integradores.ToListAsync();
     }
 
-    public async Task<Integrador> ObterPorId(int id)
+    public async Task<Integrador> ObterPorId(long id)
     {
         var integrador = await _context.Integradores
                     .Include(i => i.Grupo)
@@ -36,13 +36,13 @@ public class IntegradoresRepository : IIntegradoresRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task Atualizar(int id, Integrador integrador)
+    public async Task Atualizar(long id, Integrador integrador)
     {
         _context.Update(integrador);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Remover(int id)
+    public async Task Remover(long id)
     {
         var integrador = await ObterPorId(id);
 

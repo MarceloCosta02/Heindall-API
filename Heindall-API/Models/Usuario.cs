@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System.Text.Json.Serialization;
 
 namespace Heindall_API.Models;
 
@@ -13,6 +14,7 @@ public class Usuario : BaseEntity
 	public string PortaBd { get; set; }
 	public string SchemaBd { get; set; }
 
-    public IEnumerable<IntegradorDoUsuario> IntegradoresDoUsuario { get; private set; }
+	[JsonIgnore]
+	public IEnumerable<IntegradorDoUsuario> IntegradoresDoUsuario { get; private set; }
 
 }

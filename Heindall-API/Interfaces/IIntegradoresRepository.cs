@@ -6,11 +6,11 @@ public interface IIntegradoresRepository
 {
     Task<IEnumerable<Integrador>> Obter();
 
-    Task<Integrador> ObterPorId(int id);
+    Task<Integrador> ObterPorId(long id);
 
     Task Criar(Integrador integrador);
 
-    Task Atualizar(int id, Integrador integrador);
+    Task Atualizar(long id, Integrador integrador);
 
-    Task Remover(int id);
+    Task Remover(long id);
 }

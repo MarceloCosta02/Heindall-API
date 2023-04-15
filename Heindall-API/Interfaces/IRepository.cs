@@ -6,11 +6,11 @@ public interface IRepository<T> where T : BaseEntity
 {
 	Task<IEnumerable<T>> Obter();
 
-	Task<T> ObterPorId(int id);
+	Task<T> ObterPorId(long id);
 
 	Task Criar(T item);
 
-	Task Atualizar(int id, T item);
+	Task Atualizar(long id, T item);
 
-	Task Remover(int id);
+	Task Remover(long id);
 }

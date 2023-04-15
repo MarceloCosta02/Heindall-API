@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Heindall_API.Migrations
 {
-    /// <inheritdoc />
     public partial class MigrationInicial : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
@@ -19,20 +17,19 @@ namespace Heindall_API.Migrations
                 name: "Grupos",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    GrupoId = table.Column<int>(type: "int", nullable: false),
                     GrupoName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     GrupoDescription = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     GrupoArea = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GrupoType = table.Column<string>(type: "longtext", nullable: true)
+                    GrupoURL = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     GrupoMetodo = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GrupoURL = table.Column<string>(type: "longtext", nullable: true)
+                    GrupoType = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     GrupoUser = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -46,7 +43,7 @@ namespace Heindall_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grupos", x => x.id);
+                    table.PrimaryKey("PK_Grupos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -54,7 +51,7 @@ namespace Heindall_API.Migrations
                 name: "Metas",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Prioridade = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -69,7 +66,7 @@ namespace Heindall_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Metas", x => x.id);
+                    table.PrimaryKey("PK_Metas", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -77,22 +74,28 @@ namespace Heindall_API.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioName = table.Column<string>(type: "longtext", nullable: true)
+                    Cnpj = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UsuarioIDAgencia = table.Column<string>(type: "longtext", nullable: true)
+                    Nivel = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UsuarioCNPJ = table.Column<int>(type: "int", nullable: false),
-                    UsuarioNivel = table.Column<string>(type: "longtext", nullable: true)
+                    NomeEmpresa = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UsuarioBancoDestino = table.Column<string>(type: "longtext", nullable: true)
+                    HostBd = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserBd = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SenhaBd = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PortaBd = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SchemaBd = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuarios", x => x.id);
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -100,31 +103,27 @@ namespace Heindall_API.Migrations
                 name: "Integradores",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    IntegradorId = table.Column<int>(type: "int", nullable: false),
                     IntegradorNome = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GrupoUser = table.Column<string>(type: "longtext", nullable: true)
+                    IntegradorGrupo = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GrupoPassword = table.Column<string>(type: "longtext", nullable: true)
+                    IntegradorEndpoint = table.Column<int>(type: "int", nullable: false),
+                    IntegradorPublicKey = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    GrupoPort = table.Column<int>(type: "int", nullable: false),
-                    PublicKey = table.Column<string>(type: "longtext", nullable: true)
+                    IntegradorPrivateKey = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PrivateKey = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    GrupoId = table.Column<int>(type: "int", nullable: false),
-                    GrupoId1 = table.Column<long>(type: "bigint", nullable: true)
+                    GrupoId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Integradores", x => x.id);
+                    table.PrimaryKey("PK_Integradores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Integradores_Grupos_GrupoId1",
-                        column: x => x.GrupoId1,
+                        name: "FK_Integradores_Grupos_GrupoId",
+                        column: x => x.GrupoId,
                         principalTable: "Grupos",
-                        principalColumn: "id");
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -132,83 +131,57 @@ namespace Heindall_API.Migrations
                 name: "IntegradoresdoUsuario",
                 columns: table => new
                 {
-                    id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
-                    IntegradorId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId1 = table.Column<long>(type: "bigint", nullable: true),
-                    IntegradorId1 = table.Column<long>(type: "bigint", nullable: true)
+                    UsuarioIdAgencia = table.Column<int>(type: "int", nullable: false),
+                    LoginIntegradorUsuario = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SenhaIntegradorUsuario = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PortaIntegradorUsuario = table.Column<int>(type: "int", nullable: false),
+                    PublicKeyIntegradorUsuario = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PrivateKeyIntegradorUsuario = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UsuarioId = table.Column<long>(type: "bigint", nullable: true),
+                    IntegradorId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IntegradoresdoUsuario", x => x.id);
+                    table.PrimaryKey("PK_IntegradoresdoUsuario", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_IntegradoresdoUsuario_Integradores_IntegradorId1",
-                        column: x => x.IntegradorId1,
+                        name: "FK_IntegradoresdoUsuario_Integradores_IntegradorId",
+                        column: x => x.IntegradorId,
                         principalTable: "Integradores",
-                        principalColumn: "id");
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_IntegradoresdoUsuario_Usuarios_UsuarioId1",
-                        column: x => x.UsuarioId1,
+                        name: "FK_IntegradoresdoUsuario_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
                         principalTable: "Usuarios",
-                        principalColumn: "id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "IntegradorUsuario",
-                columns: table => new
-                {
-                    IntegradoresId = table.Column<long>(type: "bigint", nullable: false),
-                    UsuariosId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IntegradorUsuario", x => new { x.IntegradoresId, x.UsuariosId });
-                    table.ForeignKey(
-                        name: "FK_IntegradorUsuario_Integradores_IntegradoresId",
-                        column: x => x.IntegradoresId,
-                        principalTable: "Integradores",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_IntegradorUsuario_Usuarios_UsuariosId",
-                        column: x => x.UsuariosId,
-                        principalTable: "Usuarios",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Integradores_GrupoId1",
+                name: "IX_Integradores_GrupoId",
                 table: "Integradores",
-                column: "GrupoId1");
+                column: "GrupoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IntegradoresdoUsuario_IntegradorId1",
+                name: "IX_IntegradoresdoUsuario_IntegradorId",
                 table: "IntegradoresdoUsuario",
-                column: "IntegradorId1");
+                column: "IntegradorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IntegradoresdoUsuario_UsuarioId1",
+                name: "IX_IntegradoresdoUsuario_UsuarioId",
                 table: "IntegradoresdoUsuario",
-                column: "UsuarioId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IntegradorUsuario_UsuariosId",
-                table: "IntegradorUsuario",
-                column: "UsuariosId");
+                column: "UsuarioId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "IntegradoresdoUsuario");
-
-            migrationBuilder.DropTable(
-                name: "IntegradorUsuario");
 
             migrationBuilder.DropTable(
                 name: "Metas");

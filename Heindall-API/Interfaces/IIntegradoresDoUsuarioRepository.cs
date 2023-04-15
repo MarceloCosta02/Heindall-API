@@ -6,11 +6,11 @@ public interface IIntegradoresDoUsuarioRepository
 {
     Task<IEnumerable<IntegradorDoUsuario>> Obter();
 
-    Task<IntegradorDoUsuario> ObterPorId(int id);
+    Task<IntegradorDoUsuario> ObterPorId(long id);
 
     Task Criar(IntegradorDoUsuario integradorDoUsuario);
 
-    Task Atualizar(int id, IntegradorDoUsuario integradorDoUsuario);
+    Task Atualizar(long id, IntegradorDoUsuario integradorDoUsuario);
 
-    Task Remover(int id);
+    Task Remover(long id);
 }

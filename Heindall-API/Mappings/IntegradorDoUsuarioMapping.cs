@@ -45,17 +45,5 @@ public class IntegradorDoUsuarioMapping : IEntityTypeConfiguration<IntegradorDoU
            .HasColumnName(nameof(IntegradorDoUsuario.PrivateKeyIntegradorUsuario).ToUpper())
            .IsRequired()
            .HasColumnType("VARCHAR(100)");
-
-
-        builder.HasOne(v => v.Usuario)
-            .WithMany(c => c.IntegradoresDoUsuario)
-            .HasForeignKey(v => v.UsuarioId)
-            .HasConstraintName("FK_INTEGRAXUSER_USER");
-
-        builder.HasOne(v => v.Integrador)
-            .WithMany(p => p.UsuariosDoIntegrador)
-            .HasForeignKey(v => v.IntegradorId)
-            .HasConstraintName("FK_INTEGRAXUSER_INTEGRA");
-
     }
 }

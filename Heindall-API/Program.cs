@@ -2,20 +2,35 @@ using Heindall_API.Context;
 using Heindall_API.Interfaces;
 using Heindall_API.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Rextur.Domain.AutoMapper;
+using System;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MySQLContext>
-	(options => options.UseMySql(
-		builder.Configuration.GetConnectionString("MySQLConnectionString"),
-		Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.05.00-MariaDB")));
+builder.Services.AddDbContext<MySQLContext>(options =>
+{
+string connectionString = builder.Configuration.GetConnectionString("MySQLConnectionString");
+options.UseMySql(connectionString,
+	ServerVersion.AutoDetect(connectionString),
+	mySqlOptions =>
+		mySqlOptions.EnableRetryOnFailure(
+			maxRetryCount: 10,
+			maxRetryDelay: TimeSpan.FromSeconds(30),
+			errorNumbersToAdd: null)
+		);
+});
+
+builder.Services.AddAutoMapper(typeof(DtoToDomainModelProfile));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

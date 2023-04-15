@@ -7,7 +7,7 @@ namespace Heindall_API.Context;
 public class MySQLContext : DbContext
 {
 	public MySQLContext(DbContextOptions<MySQLContext> options)
-		: base(options) => Database.EnsureCreated();
+		: base(options) { }
 
 	public DbSet<Grupo> Grupos { get; set; }
 	public DbSet<Integrador> Integradores { get; set; }

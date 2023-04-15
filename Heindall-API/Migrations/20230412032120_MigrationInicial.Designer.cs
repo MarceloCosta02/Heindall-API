@@ -3,6 +3,7 @@ using System;
 using Heindall_API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Heindall_API.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    partial class MySQLContextModelSnapshot : ModelSnapshot
+    [Migration("20230412032120_MigrationInicial")]
+    partial class MigrationInicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,11 +73,11 @@ namespace Heindall_API.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("Id");
 
-                    b.Property<long>("GrupoId")
+                    b.Property<long?>("GrupoId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("IntegradorEndpoint")
-                        .HasColumnType("longtext");
+                    b.Property<int>("IntegradorEndpoint")
+                        .HasColumnType("int");
 
                     b.Property<string>("IntegradorGrupo")
                         .HasColumnType("longtext");
@@ -209,9 +211,7 @@ namespace Heindall_API.Migrations
                 {
                     b.HasOne("Heindall_API.Models.Grupo", "Grupo")
                         .WithMany()
-                        .HasForeignKey("GrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GrupoId");
 
                     b.Navigation("Grupo");
                 });

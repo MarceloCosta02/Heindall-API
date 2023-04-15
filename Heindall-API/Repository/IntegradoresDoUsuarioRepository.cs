@@ -17,17 +17,19 @@ public class IntegradoresDoUsuarioRepository : IIntegradoresDoUsuarioRepository
     public async Task<IEnumerable<IntegradorDoUsuario>> Obter()
     {
         var integradoresdoUsuario = _context.IntegradoresdoUsuario
-            .Include(i => i.Integrador)
-            .Include(i => i.Usuario);
+            .Include(i => i.Integrador).ThenInclude(g => g.Grupo)
+            .Include(i => i.Usuario)
+            .AsNoTracking();
 
         return await integradoresdoUsuario.ToListAsync();
     }
 
-    public async Task<IntegradorDoUsuario> ObterPorId(int id)
+    public async Task<IntegradorDoUsuario> ObterPorId(long id)
     {
         var integradorDoUsuario = await _context.IntegradoresdoUsuario
-            .Include(i => i.Integrador)
+            .Include(i => i.Integrador).ThenInclude(g => g.Grupo)
             .Include(i => i.Usuario)
+            .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == id);
 
         return integradorDoUsuario;
@@ -39,13 +41,13 @@ public class IntegradoresDoUsuarioRepository : IIntegradoresDoUsuarioRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task Atualizar(int id, IntegradorDoUsuario integradordoUsuario)
+    public async Task Atualizar(long id, IntegradorDoUsuario integradordoUsuario)
     {
         _context.Update(integradordoUsuario);
         await _context.SaveChangesAsync();
     }
 
-    public async Task Remover(int id)
+    public async Task Remover(long id)
     {
         var integradordoUsuario = await ObterPorId(id);
 

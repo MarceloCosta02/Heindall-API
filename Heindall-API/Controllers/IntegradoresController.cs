@@ -1,5 +1,7 @@
+using AutoMapper;
 using Heindall_API.Interfaces;
 using Heindall_API.Models;
+using Heindall_API.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Heindall_API.Controllers;
@@ -8,11 +10,16 @@ namespace Heindall_API.Controllers;
 [Route("[controller]")]
 public class IntegradoresController : ControllerBase
 {
-	private readonly IIntegradoresRepository _repository;
+	private readonly IIntegradoresRepository _repositoryIntegradores;
+	private readonly IRepository<Grupo> _repositoryGrupo;
+	private IMapper _mapper;
 
-	public IntegradoresController(IIntegradoresRepository repository)
+	public IntegradoresController(IIntegradoresRepository repository, IRepository<Grupo> repositoryGrupo, IMapper mapper)
 	{
-		_repository = repository;
+		_repositoryIntegradores = repository;
+		_repositoryGrupo = repositoryGrupo;
+
+		_mapper = mapper;
 	}
 
 	#region GET
@@ -22,7 +29,7 @@ public class IntegradoresController : ControllerBase
 	{
 		try
 		{
-			var result = await _repository.Obter();
+			var result = await _repositoryIntegradores.Obter();
 			return Ok(result);
 		}
 		catch (Exception ex)
@@ -32,11 +39,11 @@ public class IntegradoresController : ControllerBase
 	}
 
 	[HttpGet("obterPorId")]
-	public async Task<IActionResult> ObterIntegradorPorId([FromQuery] int id)
+	public async Task<IActionResult> ObterIntegradorPorId([FromQuery] long id)
 	{
 		try
 		{
-			var result = await _repository.ObterPorId(id);
+			var result = await _repositoryIntegradores.ObterPorId(id);
 			return Ok(result);
 		}
 		catch (Exception ex)
@@ -50,11 +57,20 @@ public class IntegradoresController : ControllerBase
 	#region POST
 
 	[HttpPost]
-	public async Task<IActionResult> CriarIntegrador([FromBody] Integrador integrador)
+	public async Task<IActionResult> CriarIntegrador([FromBody] IntegradorDto dto)
 	{
 		try
 		{
-			await _repository.Criar(integrador);
+			var grupo = await _repositoryGrupo.ObterPorId(dto.GrupoId);
+
+			if (grupo is null)
+				return NotFound($"Grupo com o ID {dto.GrupoId} não encontrado");
+
+			var integrador = _mapper.Map<Integrador>(dto);
+			integrador.AdicionarGrupoId(grupo.Id.Value);
+
+            await _repositoryIntegradores.Criar(integrador);
+
 			return Created("Integrador criado", integrador);
 		}
 		catch (Exception ex)
@@ -68,11 +84,34 @@ public class IntegradoresController : ControllerBase
 	#region PUT
 
 	[HttpPut]
-	public async Task<IActionResult> AtualizarIntegrador([FromQuery] int id, [FromBody] Integrador integrador)
+	public async Task<IActionResult> AtualizarIntegrador([FromQuery] long id, [FromQuery] bool alterarGrupo, [FromBody] IntegradorDto dto)
 	{
 		try
-		{
-			await _repository.Atualizar(id, integrador);
+        {
+            if (id != dto.Id)
+                return BadRequest($"IDs divergentes ID Query:{id} / ID Body:{dto.Id}");
+
+            var integradorExistente = await _repositoryIntegradores.ObterPorId(id);
+
+            if (integradorExistente is null)
+                return NotFound($"Integrador com o ID {id} não encontrado");	
+
+            var integrador = _mapper.Map<Integrador>(dto);
+
+			if (alterarGrupo)
+			{
+                var grupo = await _repositoryGrupo.ObterPorId(dto.GrupoId);
+
+                if (grupo is null)
+                    return NotFound($"Grupo com o ID {dto.GrupoId} não encontrado");
+
+                integrador.AdicionarGrupoId(dto.GrupoId);
+            }
+
+            else
+                integrador.AdicionarGrupoId(integradorExistente.GrupoId);
+
+            await _repositoryIntegradores.Atualizar(id, integrador);
 			return NoContent();
 		}
 		catch (Exception ex)
@@ -86,11 +125,11 @@ public class IntegradoresController : ControllerBase
 	#region DELETE
 
 	[HttpDelete]
-	public async Task<IActionResult> DeletarIntegrador([FromQuery] int id)
+	public async Task<IActionResult> DeletarIntegrador([FromQuery] long id)
 	{
 		try
 		{
-			await _repository.Remover(id);
+			await _repositoryIntegradores.Remover(id);
 			return NoContent();
 		}
 		catch (Exception ex)

@@ -16,9 +16,9 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
 		dataset = _context.Set<T>();
 	}
 
-	public async Task<IEnumerable<T>> Obter() => await dataset.ToListAsync();
+	public async Task<IEnumerable<T>> Obter() => await dataset.AsNoTracking().ToListAsync();
 
-	public async Task<T> ObterPorId(int id) => await dataset.FindAsync(id);
+	public async Task<T> ObterPorId(long id) => await dataset.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
 	public async Task Criar(T item)
 	{
@@ -28,20 +28,18 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task Atualizar(int id, T item)
+	public async Task Atualizar(long id, T item)
 	{
 		var itemEncontrado = await ObterPorId(id);
 
 		if (itemEncontrado is null)
 			throw new DbUpdateConcurrencyException($"Item com o id {id} a ser atualizado não existe");
 
-		item.TornarIdDefault();
-
 		dataset.Update(item);
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task Remover(int id)
+	public async Task Remover(long id)
 	{
 		var itemEncontrado = await ObterPorId(id);
 

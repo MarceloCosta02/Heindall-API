@@ -11,15 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Heindall_API.Migrations
 {
     [DbContext(typeof(MySQLContext))]
-    [Migration("20230411230320_MigrationInicial")]
-    partial class MigrationInicial
+    [Migration("20230415221428_atualizacaoIntegradorGrupo")]
+    partial class atualizacaoIntegradorGrupo
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Heindall_API.Models.Grupo", b =>
@@ -27,16 +26,13 @@ namespace Heindall_API.Migrations
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("GrupoArea")
                         .HasColumnType("longtext");
 
                     b.Property<string>("GrupoDescription")
                         .HasColumnType("longtext");
-
-                    b.Property<int>("GrupoId")
-                        .HasColumnType("int");
 
                     b.Property<string>("GrupoMetodo")
                         .HasColumnType("longtext");
@@ -75,38 +71,29 @@ namespace Heindall_API.Migrations
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
-                    b.Property<int>("GrupoId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("GrupoId1")
+                    b.Property<long>("GrupoId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("GrupoPassword")
+                    b.Property<string>("IntegradorEndpoint")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("GrupoPort")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GrupoUser")
+                    b.Property<string>("IntegradorGrupo")
                         .HasColumnType("longtext");
-
-                    b.Property<int>("IntegradorId")
-                        .HasColumnType("int");
 
                     b.Property<string>("IntegradorNome")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PrivateKey")
+                    b.Property<string>("IntegradorPrivateKey")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PublicKey")
+                    b.Property<string>("IntegradorPublicKey")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GrupoId1");
+                    b.HasIndex("GrupoId");
 
                     b.ToTable("Integradores");
                 });
@@ -116,25 +103,37 @@ namespace Heindall_API.Migrations
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
-                    b.Property<int>("IntegradorId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("IntegradorId1")
+                    b.Property<long?>("IntegradorId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<string>("LoginIntegradorUsuario")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("PortaIntegradorUsuario")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UsuarioId1")
+                    b.Property<string>("PrivateKeyIntegradorUsuario")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PublicKeyIntegradorUsuario")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SenhaIntegradorUsuario")
+                        .HasColumnType("longtext");
+
+                    b.Property<long?>("UsuarioId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("UsuarioIdAgencia")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IntegradorId1");
+                    b.HasIndex("IntegradorId");
 
-                    b.HasIndex("UsuarioId1");
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("IntegradoresdoUsuario");
                 });
@@ -144,7 +143,7 @@ namespace Heindall_API.Migrations
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     b.Property<string>("Demanda")
                         .HasMaxLength(150)
@@ -177,24 +176,30 @@ namespace Heindall_API.Migrations
                     b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
-                    b.Property<string>("UsuarioBancoDestino")
+                    b.Property<string>("Cnpj")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UsuarioCNPJ")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioIDAgencia")
+                    b.Property<string>("HostBd")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioName")
+                    b.Property<string>("Nivel")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UsuarioNivel")
+                    b.Property<string>("NomeEmpresa")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PortaBd")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SchemaBd")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SenhaBd")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserBd")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -202,26 +207,13 @@ namespace Heindall_API.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("IntegradorUsuario", b =>
-                {
-                    b.Property<long>("IntegradoresId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UsuariosId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("IntegradoresId", "UsuariosId");
-
-                    b.HasIndex("UsuariosId");
-
-                    b.ToTable("IntegradorUsuario");
-                });
-
             modelBuilder.Entity("Heindall_API.Models.Integrador", b =>
                 {
                     b.HasOne("Heindall_API.Models.Grupo", "Grupo")
                         .WithMany()
-                        .HasForeignKey("GrupoId1");
+                        .HasForeignKey("GrupoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Grupo");
                 });
@@ -229,31 +221,26 @@ namespace Heindall_API.Migrations
             modelBuilder.Entity("Heindall_API.Models.IntegradorDoUsuario", b =>
                 {
                     b.HasOne("Heindall_API.Models.Integrador", "Integrador")
-                        .WithMany()
-                        .HasForeignKey("IntegradorId1");
+                        .WithMany("UsuariosDoIntegrador")
+                        .HasForeignKey("IntegradorId");
 
                     b.HasOne("Heindall_API.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId1");
+                        .WithMany("IntegradoresDoUsuario")
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Integrador");
 
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("IntegradorUsuario", b =>
+            modelBuilder.Entity("Heindall_API.Models.Integrador", b =>
                 {
-                    b.HasOne("Heindall_API.Models.Integrador", null)
-                        .WithMany()
-                        .HasForeignKey("IntegradoresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("UsuariosDoIntegrador");
+                });
 
-                    b.HasOne("Heindall_API.Models.Usuario", null)
-                        .WithMany()
-                        .HasForeignKey("UsuariosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("Heindall_API.Models.Usuario", b =>
+                {
+                    b.Navigation("IntegradoresDoUsuario");
                 });
 #pragma warning restore 612, 618
         }
