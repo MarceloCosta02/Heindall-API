@@ -1,6 +1,6 @@
 ﻿using Heindall_API.Models;
 
-namespace Heindall_API.Interfaces;
+namespace Heindall_API.Interfaces.Repository;
 
 public interface IIntegradoresRepository
 {

@@ -1,8 +1,12 @@
 using Heindall_API.Context;
-using Heindall_API.Interfaces;
+using Heindall_API.Interfaces.Repository;
+using Heindall_API.Interfaces.Services;
 using Heindall_API.Repository;
+using Heindall_API.Services;
+using Heindall_API.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NuGet.Configuration;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Rextur.Domain.AutoMapper;
 using System;
@@ -17,6 +21,8 @@ builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.Re
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddDbContext<MySQLContext>(options =>
 {
 string connectionString = builder.Configuration.GetConnectionString("MySQLConnectionString");
@@ -30,7 +36,17 @@ options.UseMySql(connectionString,
 		);
 });
 
+var rexturServerlessSettings = new RexturServerlessSettings()
+{
+	Url = builder.Configuration.GetSection("Apis:RexturServerless").Value,
+	Code = builder.Configuration.GetSection("Apis:AccessCode").Value
+};
+
+builder.Services.AddSingleton(rexturServerlessSettings);
+
 builder.Services.AddAutoMapper(typeof(DtoToDomainModelProfile));
+
+builder.Services.AddScoped<IRexturService, RexturService>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

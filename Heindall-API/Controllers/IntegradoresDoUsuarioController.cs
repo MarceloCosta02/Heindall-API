@@ -1,5 +1,5 @@
 using AutoMapper;
-using Heindall_API.Interfaces;
+using Heindall_API.Interfaces.Repository;
 using Heindall_API.Models;
 using Heindall_API.Repository;
 using Microsoft.AspNetCore.Mvc;
