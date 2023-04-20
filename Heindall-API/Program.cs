@@ -1,5 +1,8 @@
+using Heindall_API.AutoMapper;
 using Heindall_API.Context;
+using Heindall_API.HttpServices;
 using Heindall_API.Interfaces.Repository;
+using Heindall_API.Interfaces.Service;
 using Heindall_API.Interfaces.Services;
 using Heindall_API.Repository;
 using Heindall_API.Services;
@@ -10,6 +13,7 @@ using NuGet.Configuration;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Rextur.Domain.AutoMapper;
 using System;
+using System.Configuration;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +40,20 @@ options.UseMySql(connectionString,
 		);
 });
 
+builder.Services.AddDbContext<RexturContext>(options =>
+{
+	string connectionString = builder.Configuration.GetConnectionString("MySQLConnectionString");
+	options.UseMySql(connectionString,
+		ServerVersion.AutoDetect(connectionString),
+		mySqlOptions =>
+			mySqlOptions.EnableRetryOnFailure(
+				maxRetryCount: 10,
+				maxRetryDelay: TimeSpan.FromSeconds(30),
+				errorNumbersToAdd: null)
+			);
+});
+
+
 var rexturServerlessSettings = new RexturServerlessSettings()
 {
 	Url = builder.Configuration.GetSection("Apis:RexturServerless").Value,
@@ -44,14 +62,16 @@ var rexturServerlessSettings = new RexturServerlessSettings()
 
 builder.Services.AddSingleton(rexturServerlessSettings);
 
-builder.Services.AddAutoMapper(typeof(DtoToDomainModelProfile));
+builder.Services.AddAutoMapper(typeof(DtoToDomainModelProfile), typeof(ResponseModelToDomainModelProfile));
 
-builder.Services.AddScoped<IRexturService, RexturService>();
+builder.Services.AddScoped<IRexturHttpService, RexturHttpService>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IIntegradoresDoUsuarioRepository, IntegradoresDoUsuarioRepository>();
 builder.Services.AddScoped<IIntegradoresRepository, IntegradoresRepository>();
+builder.Services.AddScoped<IRexturRepository, RexturRepository>();
+builder.Services.AddScoped<IImportacaoService, ImportacaoService>();
 
 var app = builder.Build();
 

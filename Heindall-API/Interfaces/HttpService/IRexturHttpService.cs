@@ -2,7 +2,7 @@
 
 namespace Heindall_API.Interfaces.Services;
 
-public interface IRexturService
+public interface IRexturHttpService
 {
     Task<IEnumerable<TicketsResponse>> ObterTickets(string requestDate);
 }
