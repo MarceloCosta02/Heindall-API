@@ -40,20 +40,6 @@ options.UseMySql(connectionString,
 		);
 });
 
-builder.Services.AddDbContext<RexturContext>(options =>
-{
-	string connectionString = builder.Configuration.GetConnectionString("MySQLConnectionString");
-	options.UseMySql(connectionString,
-		ServerVersion.AutoDetect(connectionString),
-		mySqlOptions =>
-			mySqlOptions.EnableRetryOnFailure(
-				maxRetryCount: 10,
-				maxRetryDelay: TimeSpan.FromSeconds(30),
-				errorNumbersToAdd: null)
-			);
-});
-
-
 var rexturServerlessSettings = new RexturServerlessSettings()
 {
 	Url = builder.Configuration.GetSection("Apis:RexturServerless").Value,
@@ -70,7 +56,6 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IIntegradoresDoUsuarioRepository, IntegradoresDoUsuarioRepository>();
 builder.Services.AddScoped<IIntegradoresRepository, IntegradoresRepository>();
-builder.Services.AddScoped<IRexturRepository, RexturRepository>();
 builder.Services.AddScoped<IImportacaoService, ImportacaoService>();
 
 var app = builder.Build();

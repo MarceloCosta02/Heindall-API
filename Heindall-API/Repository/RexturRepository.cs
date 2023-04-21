@@ -12,12 +12,7 @@ public class RexturRepository : IRexturRepository
 
     public RexturRepository(RexturContext dbContext)
     {
-        _dbContext = dbContext;     
-    }
-
-    public void AlterarConnectionString(string novaConnectionString)
-    {
-        _dbContext.Database.SetConnectionString(novaConnectionString);
+        _dbContext = dbContext;
     }
 
     public async Task InserirTicket(Ticket ticket)

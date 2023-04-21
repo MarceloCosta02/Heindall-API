@@ -12,6 +12,4 @@ public interface IRexturRepository
     Task<IEnumerable<Ticket>> ObterTickets();
 
     Task<IEnumerable<string>> ObterNumerosDeTicketExistentes();
-
-    void AlterarConnectionString(string novaConnectionString);
 }

@@ -36,7 +36,7 @@ public class ImportacaoController : ControllerBase
 
 		try
 		{
-			var result = await _httpService.ObterTickets("20230416");
+			var result = await _httpService.ObterTickets(request.RequestDate);
 
 			await _service.ImportarParaBasesCadastradas(result);
 
